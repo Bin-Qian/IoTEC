@@ -53,7 +53,7 @@ This demo contains two general modules: Cloud detection module and a edge data l
 4. project structure follow: https://github.com/kubeedge/examples/tree/master/kubeedge-edge-ai-application
 
 
-![image](https://github.com/Bin-Qian/IoTEC/examples/wildfire-smoke-detection/images/workflow.png)
+![image](https://github.com/Bin-Qian/IoTEC/blob/main/examples/wildfire-smoke-detection/images/workflow.png)
 
 
 
