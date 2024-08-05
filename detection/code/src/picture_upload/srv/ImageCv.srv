@@ -1,0 +1,4 @@
+bool is_req
+sensor_msgs/Image client_image
+---
+sensor_msgs/Image server_image

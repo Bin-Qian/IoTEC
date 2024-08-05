@@ -1,0 +1,90 @@
+# 验证是否成功：1、kubectl logs 查看节点日志，云端有推理信息，边端出现“成功保存图片”即为成功；2、kubectl cp ros2-client-79b4647558-r8fkr(边端节点名):/project/output/result /home/lizi/2.pn(本机路径) 把图片copy出来查看
+# 接收图片（云端，服务端）并推理
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ros2-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ros2-server
+  template:
+    metadata:
+      labels:
+        app: ros2-server
+    spec:
+      containers:
+      - image: docker.io/library/ros2_test:latest 
+        command: ["/bin/bash", "-c"]
+        args: 
+        - "source /opt/ros/$ROS_DISTRO/setup.bash && \
+           cd /project && source install/setup.bash && \
+           ros2 run py_server server_py && \
+           tail -f /dev/null"
+           # ros2 topic echo /chatter_1 std_msgs/String"
+        imagePullPolicy: IfNotPresent
+        tty: true
+        name: ros2-server
+      nodeSelector:
+        kubernetes.io/hostname: lizi-victus-by-hp-gaming-laptop-16-r0xxx
+      tolerations:
+      - key: node-role.kubernetes.io/master
+        operator: Exists
+        effect: NoSchedule
+      - key: node-role.kubernetes.io/control-plane
+        operator: Exists
+        effect: NoSchedule
+      restartPolicy: Always
+      
+---
+
+# 提供图片（边端，客户端）
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ros2-client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ros2-client
+  template:
+    metadata:
+      labels:
+        app: ros2-client
+    spec:
+      containers:
+      - image: docker.io/library/ros2_test_edge:latest # 镜像名称
+        #env: # 全局变量设置
+        #- name: MY_PICTURE_PATH
+          #value: /image/1.png # 需更改1.png为你挂载的主机路径所存的实际图片名称
+        command: ["/bin/bash", "-c"]
+        args: 
+        - "source /opt/ros/$ROS_DISTRO/setup.bash && \
+           cd /project && \
+           source install/setup.bash && \
+           ros2 run cpp_service client_cpp"
+          #ros2 topic echo /chatter_2 std_msgs/String"
+        imagePullPolicy: IfNotPresent 
+        tty: true
+        name: ros2-client
+        #volumeMounts:
+        #- name: host-volume
+          #mountPath: /image # 容器内的挂载路径（不用改）
+      #volumes:
+      #- name: host-volume
+        #hostPath:
+          #path: /home/lizi/image # 主机上的挂载路径-----改为所运行节点主机实际存储图片的路径
+      nodeSelector:
+        kubernetes.io/hostname: lizi-victus-by-hp-gaming-laptop-16-r0xxx # 节点名
+      tolerations:
+      - key: node-role.kubernetes.io/master # 允许在master运行
+        operator: Exists
+        effect: NoSchedule
+      - key: node-role.kubernetes.io/control-plane # 允许在control plane运行
+        operator: Exists
+        effect: NoSchedule
+      restartPolicy: Always
+
+
