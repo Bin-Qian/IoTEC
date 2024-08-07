@@ -1,4 +1,4 @@
-# 验证是否成功：1、kubectl logs 查看节点日志，云端有推理信息，边端出现“成功保存图片”即为成功；2、kubectl cp ros2-client-79b4647558-r8fkr(边端节点名):/project/output/result /home/lizi/2.pn(本机路径) 把图片copy出来查看
+# 验证是否成功：1、kubectl logs 查看节点日志，云端有推理信息，边端出现“成功保存图片”即为成功；2、kubectl cp ros2-client-79b4647558-r8fkr(边端节点名):/project/output/result.jpg /home/lizi/result.jpg(本机路径) 把图片copy出来查看
 # 接收图片（云端，服务端）并推理
 apiVersion: apps/v1
 kind: Deployment
@@ -64,8 +64,8 @@ spec:
         - "source /opt/ros/$ROS_DISTRO/setup.bash && \
            cd /project && \
            source install/setup.bash && \
-           ros2 run cpp_service client_cpp"
-          #ros2 topic echo /chatter_2 std_msgs/String"
+           ros2 run cpp_service client_cpp && \
+           ros2 topic echo /chatter_2 std_msgs/String"
         imagePullPolicy: IfNotPresent 
         tty: true
         name: ros2-client

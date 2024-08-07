@@ -14,18 +14,18 @@ An example:
 docker build -t data_loader .
 
 docker build -t detection .
- ```  
+```  
 2. pack the images and upload them to containerd
 ```
 docker save {your_image_name} -o {your_save_path}
 ctr -n k8s.io image import {your_save_path}
 ```
 3. run in kubeedge
-You need to make some changes to the ros2-picture-load.yaml based on actual conditions, such as specifying the running node.
+You need to make some changes to the ros2-picture-load.yaml based on actual conditions, such as specifying the running node and the image name.
 ```
 sudo kubectl apply -f ros2-picture-load.yaml
 ```
-1. check
+4. check
 It may take a while to successfully run. Use command below to check.
 ``` 
 sudo kubectl logs {your_pod_name}
@@ -36,6 +36,9 @@ If message like "成功保存图片" comes up in the client node, it means it ha
 kubectl cp {your_client_pod_name}:/project/output/result.png {your_host_path}
 ```
 Then you can open the image to check.
+
+A demo:
+<video src="./demo.mp4"></video>
 
 ### About the code 
 
