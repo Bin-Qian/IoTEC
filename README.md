@@ -38,7 +38,7 @@ kubectl cp {your_client_pod_name}:/project/output/result.png {your_host_path}
 Then you can open the image to check.
 
 A demo:
-<video src="./demo.mp4"></video>
+https://github.com/user-attachments/assets/f034029f-2c5c-479c-8978-ef362edf4139
 
 ### About the code 
 
