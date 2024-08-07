@@ -39,7 +39,7 @@ Then you can open the image to check.
 
 A demo:
 https://github.com/user-attachments/assets/f034029f-2c5c-479c-8978-ef362edf4139
-https://private-user-images.githubusercontent.com/110225765/355741976-f034029f-2c5c-479c-8978-ef362edf4139.mp4
+data-canonical-src="https://private-user-images.githubusercontent.com/110225765/355741976-f034029f-2c5c-479c-8978-ef362edf4139.mp4"
 
 ### About the code 
 
